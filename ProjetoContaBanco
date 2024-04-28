@@ -1,0 +1,58 @@
+menu = """
+Selecione uma opcao:
+    [d]epositar
+    [s]acar
+    [e]xtrato
+    [q]uitar da operacao
+    """
+
+saldo = 0
+LIMITE_SAQUES = 3
+VALOR_MAXIMO_SAQUE = 500
+qtd_saques = 0
+extrato = ""
+
+
+while(True):
+    opcao = input(menu)
+
+    if opcao == "d":
+        valor_deposito = float(input("Digite o valor do deposito: "))
+        if valor_deposito < 0:
+            print("Digite um valor positivo.")
+        else:
+            saldo += valor_deposito
+            extrato += f"Deposito no valor de {valor_deposito:.2f}\n"
+
+    elif opcao == "s":
+        if saldo == 0:
+            print("Voce nao possui saldo para sacar.")
+        else:
+            saque = float(input("Digite o valor do saque: "))
+            if saque > saldo:
+                print("Voce nao possui saldo suficiente para fazer esse saque")
+            elif saque > VALOR_MAXIMO_SAQUE:
+                print("Nao foi possivel sacar.")
+                print("O limite maximo para sacar e R$500,00")
+            elif saque < 0:
+                print("Nao e possivel realizar saques negativos.")
+            elif qtd_saques == LIMITE_SAQUES:
+                    print("Nao foi possivel sacar.")
+                    print("Voce atingiu a quantidade limite de saques diarios.")
+            else: 
+                saldo -= saque
+                print(f"Saldo disponivel na conta R${saldo}")
+                extrato += f"Valor sacado no valor de {saque:.2f}\n"
+                qtd_saques += 1
+    elif opcao == "e":
+        if not extrato:
+            print("Voce nao fez depositos nem saques")
+        else:
+            print(10 *"-"+"EXTRATO-BANCARIO"+10*"-")
+            print(f"Seu extrato é:\n{extrato}")
+            print(f"Saldo atual da conta R${saldo:.2f}")
+    elif opcao == "q":
+        print("Voce saiu da aplicacao.")
+        break
+    else:
+        print("Digite uma opcao compativel com o sistema.")
